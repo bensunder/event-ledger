@@ -12,3 +12,9 @@ scrape_configs:
     static_configs:
       - targets: ['event-ledger-account:8001']
     metrics_path: '/actuator/prometheus'
+
+# Alert rules placeholder
+# alerting:
+#   alertmanagers:
+#     - static_configs:
+#         - targets: ['alertmanager:9093']
