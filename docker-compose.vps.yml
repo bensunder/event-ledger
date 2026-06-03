@@ -1,0 +1,107 @@
+services:
+
+  account-service:
+    image: eclipse-temurin:21-jre-jammy
+    container_name: event-ledger-account
+    working_dir: /app
+    volumes:
+      - ./account-service/target/account-service-1.0.0.jar:/app/app.jar:ro
+      - account-data:/data
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8001:8001"
+    environment:
+      SERVER_PORT: "8001"
+      SPRING_DATASOURCE_URL: "jdbc:h2:file:/data/accountdb;AUTO_SERVER=TRUE;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE"
+      SPRING_DATASOURCE_USERNAME: "sa"
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_DATA_JDBC_DIALECT: "h2"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8001/health | grep -q healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  event-gateway:
+    image: eclipse-temurin:21-jre-jammy
+    container_name: event-ledger-gateway
+    working_dir: /app
+    volumes:
+      - ./event-gateway/target/event-gateway-1.0.0.jar:/app/app.jar:ro
+      - gateway-data:/data
+    command: ["java", "-jar", "/app/app.jar"]
+    ports:
+      - "8000:8000"
+    environment:
+      SERVER_PORT: "8000"
+      ACCOUNT_SERVICE_URL: "http://account-service:8001"
+      SPRING_DATASOURCE_URL: "jdbc:h2:file:/data/gatewaydb;AUTO_SERVER=TRUE;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE"
+      SPRING_DATASOURCE_USERNAME: "sa"
+      SPRING_DATASOURCE_PASSWORD: ""
+      SPRING_DATA_JDBC_DIALECT: "h2"
+    depends_on:
+      account-service:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health | grep -q healthy"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 45s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+        max-file: "5"
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: prometheus
+    volumes:
+      - ./observability/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=15d'
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  grafana:
+    image: grafana/grafana:10.4.0
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: "eventledger"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  account-data:
+  gateway-data:
+  prometheus-data:
+  grafana-data:

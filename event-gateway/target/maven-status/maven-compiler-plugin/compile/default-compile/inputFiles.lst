@@ -1,0 +1,15 @@
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/EventGatewayApplication.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/client/AccountServiceClient.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/client/AccountServiceUnavailableException.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/config/GatewayTraceFilter.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/config/RestTemplateConfig.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/config/TraceContext.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/controller/GatewayController.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/controller/GatewayExceptionHandler.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/domain/Event.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/dto/CreateEventRequest.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/dto/EventResponse.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/dto/GatewayErrorResponse.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/dto/GatewayHealthResponse.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/repository/EventRepository.java
+/opt/event-ledger/event-gateway/src/main/java/com/eventledger/gateway/service/GatewayService.java

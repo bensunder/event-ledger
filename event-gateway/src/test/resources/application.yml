@@ -1,0 +1,41 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:gatewaytestdb;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE;CASE_INSENSITIVE_IDENTIFIERS=TRUE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  data:
+    jdbc:
+      dialect: h2
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+
+account-service:
+  url: http://localhost:8001
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics,info
+
+resilience4j:
+  retry:
+    instances:
+      account-service:
+        maxAttempts: 1
+        waitDuration: 10ms
+  circuitbreaker:
+    instances:
+      account-service:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 1s
+  ratelimiter:
+    instances:
+      gateway:
+        limitForPeriod: 1000
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0

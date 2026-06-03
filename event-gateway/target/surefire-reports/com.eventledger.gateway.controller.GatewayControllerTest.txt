@@ -1,0 +1,30 @@
+-------------------------------------------------------------------------------
+Test set: com.eventledger.gateway.controller.GatewayControllerTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 8.124 s <<< FAILURE! -- in com.eventledger.gateway.controller.GatewayControllerTest
+com.eventledger.gateway.controller.GatewayControllerTest.accountServiceNetworkFailure_returns503 -- Time elapsed: 0.071 s <<< FAILURE!
+java.lang.AssertionError: Response status expected:<503> but was:<429>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$is$1(StatusResultMatchers.java:64)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.eventledger.gateway.controller.GatewayControllerTest.sendEventWithId(GatewayControllerTest.java:219)
+	at com.eventledger.gateway.controller.GatewayControllerTest.sendEvent(GatewayControllerTest.java:211)
+	at com.eventledger.gateway.controller.GatewayControllerTest.accountServiceNetworkFailure_returns503(GatewayControllerTest.java:147)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+com.eventledger.gateway.controller.GatewayControllerTest.accountServiceDown_returns503 -- Time elapsed: 0.027 s <<< FAILURE!
+java.lang.AssertionError: Response status expected:<503> but was:<429>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:59)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:122)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$is$1(StatusResultMatchers.java:64)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:214)
+	at com.eventledger.gateway.controller.GatewayControllerTest.sendEventWithId(GatewayControllerTest.java:219)
+	at com.eventledger.gateway.controller.GatewayControllerTest.sendEvent(GatewayControllerTest.java:211)
+	at com.eventledger.gateway.controller.GatewayControllerTest.accountServiceDown_returns503(GatewayControllerTest.java:135)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
